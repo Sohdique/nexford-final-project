@@ -1,11 +1,12 @@
-# app.py - Flask application for customer segmentation predictions using the trained KMeans model
-
-from flask import Flask, request, jsonify
+from flask import Flask, render_template, request, jsonify
 import pandas as pd
 import joblib
 import os
+from flask_cors import CORS
+
 
 app = Flask(__name__)
+CORS(app)
 
 SCALER_PATH = 'notebooks/output/scaler.pkl'
 MODEL_PATH = 'notebooks/output/kmeans_model.pkl'
@@ -76,7 +77,7 @@ def predict():
 
 @app.route('/', methods=['GET'])
 def home():
-    return jsonify({'message': 'Welcome to the Customer Segmentation Prediction API. Use /predict endpoint with POST.'})
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5050)
